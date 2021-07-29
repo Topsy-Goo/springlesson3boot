@@ -1,14 +1,15 @@
 package com.geekbrains.webapp.springlesson3mvc.controllers;
 
-import com.geekbrains.webapp.springlesson3mvc.model.Product;
 import com.geekbrains.webapp.springlesson3mvc.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller     //< Эта аннотация наследует от аннотации @Component
+@Controller     //< наследует от аннотации @Component
 public class ProductController
 {
     private final ProductService productService;
@@ -20,31 +21,50 @@ public class ProductController
         productService = service;
     }
 
-
-    //http://localhost:8189/store/test
-    @GetMapping ("/test")
-    @ResponseBody   //< означает, что возвращаемое значение будет ответом клиенту на его
-    // запрос. При отсутствии этой аннотации мы должны вернуть название HTML-страницы.
-    public String getTest()
+    //http://localhost:8189/store
+    @GetMapping
+    public String showMainPage()
     {
-        return "Hello, World!";
+        return "index";
     }
 
-    //http://localhost:8189/store/echo?word=Uuuuuu
-    @GetMapping ("/echo")
-    @ResponseBody
-    public String getEchoRequest (@RequestParam (name = "word", defaultValue = "..", required = false) String word)
-    {   //(Совместное использование  defaultValue и required бессмысленно и преведено для примера.)
-        return "Echo: "+ word;
-    }
-
-    //http://localhost:8189/store/product
-    @GetMapping ("/product")
-    @ResponseBody
-    public Product getProduct()
+    //http://localhost:8189/store/showallproducts
+    @GetMapping ("/showallproducts")
+    public String showAllProducts (Model model) //< Модель помещаем в параметры по мере необходимости.
     {
-        //Если возвращать объект, то он будет перевеёдн в JSON-формат: {"id":1,"title":"сыр","cost":4.5}
-        return new Product("сыр", 4.5);
-        //Если возвращать строку, то будет использовать метод Product.toString().
+        model.addAttribute ("alltheproducts", productService.getAllProducts());
+        return "allproducts";
     }
+
+    //http://localhost:8189/store/showproduct/{id}
+    @GetMapping ("/product/{id}")
+    public String showProduct (@PathVariable Long id, Model model)
+    {
+        model.addAttribute("product", productService.getById(id));
+        return "product";
+    }
+
+    //http://localhost:8189/store/create
+    @GetMapping ("/create")
+    public String formProduct (Model model)
+    {
+        model.addAttribute ("prompt", "Заполните форму и нажмите кнопку Сохранить.");
+        return "form";
+    }
+
+    @PostMapping ("/create")
+    public String addProduct (@RequestParam String title, @RequestParam String measure,
+                              @RequestParam Integer rub, @RequestParam Integer cop,
+                              Model model)
+    {
+        if (cop == null || cop < 0)    cop = 0;
+        if (rub == null || rub < 0)    rub = 0;
+        double cost = (double)rub + ((double) cop)/100;
+
+        boolean ok = productService.saveProduct (title, measure, cost);
+        String msg = ok ? "Товар создан." : "Не удалось создать товар.";
+        model.addAttribute ("prompt", msg);
+        return "form";
+    }
+
 }

@@ -25,4 +25,17 @@ public class ProductService
         return productRepository != null ? productRepository.getProductList()
                                          : ProductRepository.emptyList();
     }
+
+    public boolean saveProduct (String title, String measure, double cost)
+    {
+        return productRepository.add (title, measure, cost);
+    }
+
+    public Product getById (Long id)
+    {
+        if (productRepository != null)
+            return productRepository.getById(id);
+        return null;
+    }
+
 }

@@ -34,3 +34,9 @@ build/
 /.mvn/wrapper/
 /mvnw
 /mvnw.cmd
+/src/main/java/com/geekbrains/webapp/springlesson3mvc/repos/репозитории.txt
+/src/main/java/com/geekbrains/webapp/springlesson3mvc/services/сервисы.txt
+/src/main/java/com/geekbrains/webapp/springlesson3mvc/controllers/контроллеры.txt
+/src/main/java/com/geekbrains/webapp/springlesson3mvc/model/модель.txt
+/src/main/java/com/geekbrains/webapp/springlesson3mvc/описание.txt
+/src/main/resources/ресурсы.txt

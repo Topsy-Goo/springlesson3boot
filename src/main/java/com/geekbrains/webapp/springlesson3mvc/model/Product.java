@@ -2,39 +2,54 @@ package com.geekbrains.webapp.springlesson3mvc.model;
 
 public class Product
 {
-    private static long idNext = 1;
-    private final long id;
+    private static final long MIN_ID = 1;
+    private static long idNext = MIN_ID;
+    private final Long id;
     private String title;
+    private String measure;
     private double cost;
 
     public Product()
     {
         id = idNext++;
     }
-    public Product (String title, double cost)
+
+    public Product (String title, String measure, double cost)
     {
-        if (!isTitleValid (title) || !isCostValid (cost))
+        if (!isTitleValid (title) || !isMeasureValid (measure) || !isCostValid (cost))
             throw new IllegalArgumentException();
+
         id = idNext++;
         this.title = title;
+        this.measure = measure;
         this.cost = cost;
     }
 
 //----------------------------------------------------------------------*/
 
-    private boolean isTitleValid (String t)
+    public static boolean isTitleValid (String t)
     {
         return t != null && !t.trim().isEmpty();
     }
 
-    private boolean isCostValid (double c)
+    public static boolean isMeasureValid (String m)
+    {
+        return m != null && !m.trim().isEmpty();
+    }
+
+    public static boolean isCostValid (double c)
     {
         return c >= 0.0;
     }
 
+    public static boolean isIdValid (Long id)  {   return id != null && id >= MIN_ID;   }
+
 //----------------------------------------------------------------------*/
 
+    public Long getId()    {   return id;   }
     public String getTitle()    {   return title;   }
+    public String getMeasure()  {   return measure;   }
+    public double getCost()    {   return cost;   }
 
     public void setTitle (String title)
     {
@@ -43,7 +58,12 @@ public class Product
         this.title = title;
     }
 
-    public double getCost()    {   return cost;   }
+    public void setMeasure (String measure)
+    {
+        if (!isTitleValid (measure))
+            throw new IllegalArgumentException();
+        this.measure = measure;
+    }
 
     public void setCost (double cost)
     {
@@ -52,10 +72,11 @@ public class Product
         this.cost = cost;
     }
 
-    public long getId()    {   return id;   }
+//----------------------------------------------------------------------*/
 
     public String toString()
     {
-        return String.format("Product(id:%d, title:%s, cost:%.2f)", id, title, cost);
+        return String.format("Product(id:%d, title:%s, measure:%s, cost:%.2f)",
+                             id, title, measure, cost);
     }
 }

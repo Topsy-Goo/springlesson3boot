@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Добавить продукт</title>
+
+<!-- Эти ссылки подключают библиотеку стилей из https://getbootstrap.com/docs. -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+	<div class="container">
+
+		<br>
+		<h1 style="color: navy;">Добавление продукта в репозиторий</h1>
+		<br>
+
+		<!-- Форма посылает POST-метод по адресу /create. -->
+		<form method="post"	th:action="@{'/create'}">
+
+			<!-- поле name задаёт название параметра, которое попадёт в POST-метод. -->
+
+<!--	 id продукта нельзя задать, используя форму, он генерируется автоматически при помещении продукта в репозиторий. -->
+<!--			<div class="mb-3">	&lt;!&ndash;  hidden="hidden" &ndash;&gt;-->
+<!--			  <label	for="pID"		class="form-label">ID продукта</label>-->
+<!--			  <input	type="number"	name="id"	class="form-control"	id="pID"-->
+<!--			  			placeholder="натуральное число больше нуля">-->
+<!--			</div>-->
+
+			<div class="mb-3">
+			  <label	for="pTitle"	class="form-label">Наименование продукта:</label>
+			  <input	type="text"		name="title"	class="form-control"	id="pTitle"
+						placeholder="Не указано"
+						required="required">
+			</div>
+
+			<div class="mb-3">
+			  <label	for="pMeasure"	class="form-label">Единицы измерения:</label>
+			  <input	type="text"		name="measure"	class="form-control"	id="pMeasure"
+						placeholder="Не указаны. Пример: 1 л, 200 г, 1 шт., …"
+						required="required">
+			</div>
+
+
+			<label	for="roubles"	class="form-label">Цена за единицу продукта:</label>
+
+			<div class="row">
+				<div class="col">
+					<div class="input-group mb-3">
+						<input	type="text" disabled="disabled" class="form-control" value="Рубли:">
+						<input
+								id="roubles"
+								type="number"
+								class="form-control"
+								placeholder="—"
+								name="rub"
+								required="required"
+								min="0"
+						>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group mb-3">
+						<input	type="text" disabled="disabled" class="form-control" value="Копейки:">
+						<input
+								id="copecks"
+								type="number"
+								class="form-control"
+								placeholder="—"
+								name="cop"
+								required="required"
+								min="0"
+								max="99"
+						>
+					</div>
+				</div>
+			</div>
+
+	<!-- Несколько упрощённая версия элементов управления для ввода цены товара. Функционал вточности тот же. -->
+	<!--		<div class="mb-3">-->
+	<!--			<div class="row">-->
+	<!--				<div class="col">-->
+	<!--					<label	for="roubles">Рубли: </label>-->
+	<!--					<input-->
+	<!--							id="roubles"-->
+	<!--							type="number"-->
+	<!--							class="form-control"-->
+	<!--							placeholder="—"-->
+	<!--							name="rub"-->
+	<!--							required="required"-->
+	<!--							min="0"-->
+	<!--					>-->
+	<!--				</div>-->
+	<!--				<div class="col">-->
+	<!--					<label	for="copecks">Копейки: </label>-->
+	<!--					<input-->
+	<!--							id="copecks"-->
+	<!--							type="number"-->
+	<!--							class="form-control"-->
+	<!--							placeholder="—"-->
+	<!--							name="cop"-->
+	<!--							required="required"-->
+	<!--							min="0"-->
+	<!--							max="99"-->
+	<!--					>-->
+	<!--				</div>-->
+	<!--			</div>-->
+	<!--		</div>-->
+
+			<!-- Форма срабатывает по нажатии на кнопку типа Submit. -->
+			<button class="btn btn-success" type="submit">Сохранить</button>
+		</form>
+
+		<br>
+		<h1 th:text="${prompt}"></h1>
+		<br>
+		<a th:href="@{'/'}" class="btn btn-primary">&lt;&nbsp;На главную страницу</a>
+		<br>
+		<br>
+		<a th:href="@{'/showallproducts'}" class="btn btn-primary">&lt;&nbsp;К списку всех продуктов</a>
+
+	</div>
+
+</body>
+</html>

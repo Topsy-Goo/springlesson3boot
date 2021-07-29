@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+		   <!-- xmlns:th="" задаёт пространство имён. -->
+<head>
+	<meta charset="UTF-8">
+	<title>Все продукты</title>
+
+<!-- Эти ссылки подключают библиотеку стилей из https://getbootstrap.com/docs. -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</head>
+<body  marginwidth="100" style="font-size: 20pt">
+
+	<div class="container">
+
+		<br>
+		<h1 style="color: navy;">Все продукты</h1>
+		<br>
+
+		<table title="таблица с двумя заголовками и одним телом" class="table">
+			<thead title="thead-заголовок таблицы">Все продукты, имеющиеся в репозитории.</thead>
+			<tbody>
+				<tr	align="left">
+					<th>id</th>
+					<th>Название</th>
+					<th>Единицы измерения</th>
+					<th>Цена</th>
+					<th>Информация</th></tr>
+
+				<tr	align="left" th:each="product : ${alltheproducts}">
+					<!-- При таком обращении к данным Thtmeleaf вызывает геттер, но можно вызвать геттер и самостоятельно вместо указания имени свойства. -->
+					<td th:text="${product.id}"	></td>
+					<td th:text="${product.title}"></td>
+					<td th:text="${product.measure}"></td>
+					<td th:text="${product.cost}"></td>
+					<td>
+						<a th:href="@{'/product/' + ${product.id}}" class="btn btn-info">Посмотреть</a>
+					</td>
+				</tr>
+	<!--		<tr><td>12</td><td>34</td><td>56</td></tr>-->
+			</tbody>
+			<caption align="bottom" title="caption-заголовок таблицы" th:text="${'всего продуктов: ' + alltheproducts.size()}"></caption>
+		</table>
+
+		<br>
+		<br>
+		<a th:href="@{'/'}" class="btn btn-primary">&lt;&nbsp;На главную страницу</a>
+		&nbsp;
+		<a th:href="@{'/create'}" class="btn btn-primary">Добавить товар в репозиторий</a>
+
+	</div>
+
+</body>
+</html>

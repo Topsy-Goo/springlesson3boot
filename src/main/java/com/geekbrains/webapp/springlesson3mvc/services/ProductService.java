@@ -31,6 +31,11 @@ public class ProductService
         return productRepository.add (title, measure, cost);
     }
 
+    public boolean saveProduct (Product product)
+    {
+        return productRepository.add (product);
+    }
+
     public Product getById (Long id)
     {
         if (productRepository != null)

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.geekbrains.webapp.springlesson3mvc.model.Product.isProductValid;
+
 @Component  //< Поменяем на @Repository, когда появится код для работы с БД.
 public class ProductRepository
 {
@@ -39,9 +41,20 @@ public class ProductRepository
 
     public boolean add (String title, String measure, double cost)
     {
-        if (Product.isTitleValid(title) && Product.isMeasureValid(measure) && Product.isCostValid(cost))
+        Product product = new Product(title, measure, cost);
+        if (isProductValid (product))
         {
-            return productList.add (new Product(title, measure, cost));
+            return productList.add (product);
+        }
+        return false;
+    }
+
+    public boolean add (Product pparam)
+    {
+        Product product = new Product (pparam);
+        if (isProductValid (product))
+        {
+            return productList.add (product);
         }
         return false;
     }
@@ -49,12 +62,10 @@ public class ProductRepository
     public Product getById (Long id)
     {
         if (Product.isIdValid (id))
+        for (Product p : productList)
         {
-            for (Product p : productList)
-            {
-                if (p.getId().equals(id))
-                    return p;
-            }
+            if (p.getId().equals(id))
+                return p;
         }
         return null;
     }

@@ -9,40 +9,48 @@ public class Product
     private String measure;
     private double cost;
 
-    public Product()
-    {
-        id = idNext++;
-    }
+    //public Product()
+    //{
+    //    id = idNext++;
+    //}
 
     public Product (String title, String measure, double cost)
     {
-        if (!isTitleValid (title) || !isMeasureValid (measure) || !isCostValid (cost))
-            throw new IllegalArgumentException();
+        if (isTitleValid (title) && isMeasureValid (measure) && isCostValid (cost))
+        {
+            id = idNext++;
+            this.title = title;
+            this.measure = measure;
+            this.cost = cost;
+        }
+        else id = null;    //< индикатор невалидного продукта
+    }
+/*  Все параметры, кроме id, проверяются при создании объекта. Корректный id служит индикатором валидности объекта.
 
-        id = idNext++;
-        this.title = title;
-        this.measure = measure;
-        this.cost = cost;
+    Это сделано для того, чтобы приложение не падало из-за брошеных в конструкторе исключений: сделали объект из мусора, проверили id — он оказался невалидным, — обработали ошибку.
+*/
+    public Product (Product pparam)
+    {
+        if (pparam != null && isTitleValid (pparam.title) && isMeasureValid (pparam.measure) && isCostValid (cost))
+        {
+            id = idNext++;
+            this.title   = pparam.title;
+            this.measure = pparam.measure;
+            this.cost    = pparam.cost;
+        }
+        else id = null;    //< индикатор невалидного продукта
     }
 
 //----------------------------------------------------------------------*/
 
-    public static boolean isTitleValid (String t)
-    {
-        return t != null && !t.trim().isEmpty();
-    }
+    public static boolean isProductValid (Product p)  {  return p != null && p.isProductValid();  }
 
-    public static boolean isMeasureValid (String m)
-    {
-        return m != null && !m.trim().isEmpty();
-    }
+    public boolean isProductValid()  {  return  isIdValid (id);  }
 
-    public static boolean isCostValid (double c)
-    {
-        return c >= 0.0;
-    }
-
-    public static boolean isIdValid (Long id)  {   return id != null && id >= MIN_ID;   }
+    public static boolean isIdValid (Long id)    {  return id != null && id >= MIN_ID;  }
+    public static boolean isCostValid (double c) {  return c >= 0.0;  }
+    public static boolean isTitleValid (String t)   {  return t != null && !t.trim().isEmpty();  }
+    public static boolean isMeasureValid (String m) {  return m != null && !m.trim().isEmpty();  }
 
 //----------------------------------------------------------------------*/
 

@@ -59,7 +59,7 @@ public class ProductController
     {
         if (cop == null || cop < 0)    cop = 0;
         if (rub == null || rub < 0)    rub = 0;
-        double cost = (double)rub + ((double) cop)/100;
+        double cost = (double)rub + ((double) cop)/100.0;
 
         boolean ok = productService.saveProduct (title, measure, cost);
         String msg = ok ? "Товар создан." : "Не удалось создать товар.";
@@ -67,34 +67,5 @@ public class ProductController
         return "form";
     }
 
-//------------------ Методы-примеры, не участвующие в приложении: ------------------*/
-
-    //реагирует на GET-запрос с адресом : http://localhost:8189/store/test
-    @GetMapping ("/test")
-    @ResponseBody   //< означает, что возвращаемое значение будет ответом клиенту на его запрос. При отсутствии этой аннотации мы должны вернуть название HTML-страницы.
-    public String getTest()
-    {
-        return "Hello, World!";
-        //Примечательно, что возвращать можно любые объекты, если на странице их есть кому обрабатывать.
-    }
-
-    //реагирует на GET-запрос с адресом : http://localhost:8189/store/product
-    @GetMapping ("/product")
-    @ResponseBody
-    public Product getProduct()
-    {
-        //Если возвращать объект, то он будет перевеёдн в JSON-формат: {"id":1,"title":"сыр","cost":4.5}
-        return new Product ("Кофе зерновой", "250 г", 4.5);
-        //Если возвращать строку, то будет использовать метод Product.toString().
-    }
-
-    //реагирует на GET-запрос с адресом : http://localhost:8189/store/echo?word=Uuuuuu
-    @GetMapping ("/echo")
-    @ResponseBody
-    public String getEchoRequest (@RequestParam (name = "word", defaultValue = "..", required = false) String word)
-    {
-        //(Совместное использование  defaultValue и required бессмысленно и преведено для примера.)
-        return "Echo: "+ word;
-    }
 
 }

@@ -73,11 +73,14 @@ public class Product
         this.measure = measure;
     }
 
-    public void setCost (double cost)
+    public boolean setCost (double cost)
     {
-        if (!isCostValid (cost))
-            throw new IllegalArgumentException();
-        this.cost = cost;
+        if (isCostValid (cost))
+        {
+            this.cost = cost;
+            return true;
+        }
+        return false;
     }
 
 //----------------------------------------------------------------------*/

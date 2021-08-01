@@ -11,7 +11,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 </head>
-<body  marginwidth="100" style="font-size: 20pt">
+<body  marginwidth="100" style="font-size: 16pt">
 
 	<div class="container">
 
@@ -19,31 +19,33 @@
 		<h1 style="color: navy;">Все продукты</h1>
 		<br>
 
-		<table title="таблица с двумя заголовками и одним телом" class="table">
+		<table title="таблица с тремя заголовками и одним телом" class="table">
 			<thead title="thead-заголовок таблицы">Все продукты, имеющиеся в репозитории.</thead>
 			<tbody>
 				<tr	align="left">
 					<th>id</th>
 					<th>Название</th>
 					<th>Единицы измерения</th>
-					<th>Цена</th>
+					<th colspan="3">Цена</th>
 					<th>Информация</th></tr>
 
-				<tr	align="left" th:each="product : ${alltheproducts}">
+				<tr	align="left" th:each="product : ${alltheproducts}" >
 					<!-- При таком обращении к данным Thtmeleaf вызывает геттер, но можно вызвать геттер и самостоятельно вместо указания имени свойства. -->
 					<td th:text="${product.id}"	></td>
 					<td th:text="${product.title}"></td>
 					<td th:text="${product.measure}"></td>
+
+					<td><a th:href="@{'/decrease_rub/'+ ${product.id}}" class="btn btn-secondary" style="width: 30pt" title="Уменьшить цену на 1 руб.">-</a></td>
 					<td th:text="${product.cost}"></td>
-					<td>
-						<a th:href="@{'/product/' + ${product.id}}" class="btn btn-info">Посмотреть</a>
-					</td>
+					<td><a th:href="@{'/increase_rub/'+ ${product.id}}" class="btn btn-secondary" style="width: 30pt" title="Увеличить цену на 1 руб.">+</a></td>
+
+					<td><a th:href="@{'/product/' + ${product.id}}" class="btn btn-info" title="Посмотреть информацию о товаре.">Посмотреть</a></td>
 				</tr>
-	<!--		<tr><td>12</td><td>34</td><td>56</td></tr>-->
 			</tbody>
 			<caption align="bottom" title="caption-заголовок таблицы" th:text="${'всего продуктов: ' + alltheproducts.size()}"></caption>
 		</table>
 
+		<p><h3 th:text="${prompt}"></h3></p>
 		<br>
 		<br>
 		<a th:href="@{'/'}" class="btn btn-primary">&lt;&nbsp;На главную страницу</a>

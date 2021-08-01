@@ -71,4 +71,17 @@ public class ProductRepository
     }
 
     public static List<Product> emptyList() {   return new ArrayList<>();   }
+
+    public boolean decreaseCostRub (Long id)
+    {
+        Product product = getById (id);
+        return product != null && product.setCost (product.getCost() - 1.0);
+    }
+
+    public boolean increaseCostRub (Long id)
+    {
+        Product product = getById (id);
+        return product != null && product.setCost (product.getCost() + 1.0);
+    }
+
 }

@@ -43,4 +43,14 @@ public class ProductService
         return null;
     }
 
+    public boolean decreaseCostRub (Long id)
+    {
+        return productRepository != null && productRepository.decreaseCostRub (id);
+    }
+
+    public boolean increaseCostRub (Long id)
+    {
+        return productRepository != null && productRepository.increaseCostRub (id);
+    }
+
 }

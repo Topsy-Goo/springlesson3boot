@@ -85,6 +85,19 @@ public class Product
 
 //----------------------------------------------------------------------*/
 
+    public boolean changeCostBy (double delta)
+    {
+        double newvalue = cost + delta;
+        if (isCostValid (newvalue))
+        {
+            cost = newvalue;
+            return true;
+        }
+        return false;
+    }
+
+//----------------------------------------------------------------------*/
+
     public String toString()
     {
         return String.format("Product(id:%d, title:%s, measure:%s, cost:%.2f)",

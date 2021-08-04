@@ -43,14 +43,10 @@ public class ProductService
         return null;
     }
 
-    public boolean decreaseCostRub (Long id)
+    public boolean changeCostBy (Long id, double delta)
     {
-        return productRepository != null && productRepository.decreaseCostRub (id);
-    }
-
-    public boolean increaseCostRub (Long id)
-    {
-        return productRepository != null && productRepository.increaseCostRub (id);
+        return productRepository != null
+               && productRepository.changeCostBy (id, delta);
     }
 
 }

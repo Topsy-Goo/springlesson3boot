@@ -81,7 +81,7 @@ public class ProductController
     @GetMapping ("/decrease_rub/{id}")
     public String decreaseCostRub (@PathVariable Long id, Model model)
     {
-        prompt4AllProducts = (productService != null && productService.decreaseCostRub (id))
+        prompt4AllProducts = (productService != null && productService.changeCostBy (id, -1.0))
                            ? PROMPT_COST_CHANGED
                            : PROMPT_CANNOT_CHANGE_COST;
 
@@ -91,7 +91,7 @@ public class ProductController
     @GetMapping ("/increase_rub/{id}")
     public String increaseCostRub (@PathVariable Long id, Model model)
     {
-        prompt4AllProducts = (productService != null && productService.increaseCostRub (id))
+        prompt4AllProducts = (productService != null && productService.changeCostBy (id, 1.0))
                            ? PROMPT_COST_CHANGED
                            : PROMPT_CANNOT_CHANGE_COST;
 

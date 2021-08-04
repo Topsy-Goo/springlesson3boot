@@ -35,14 +35,18 @@
 					<td th:text="${product.title}"></td>
 					<td th:text="${product.measure}"></td>
 
-					<td><a th:href="@{'/decrease_rub/'+ ${product.id}}" class="btn btn-secondary" style="width: 30pt" title="Уменьшить цену на 1 руб.">-</a></td>
+					<td><a th:href="@{'/decrease_rub/'+ ${product.id}}" class="btn btn-secondary"
+						   style="width: 30pt" title="Уменьшить цену на 1 руб.">-</a></td>
 					<td th:text="${product.cost}"></td>
-					<td><a th:href="@{'/increase_rub/'+ ${product.id}}" class="btn btn-secondary" style="width: 30pt" title="Увеличить цену на 1 руб.">+</a></td>
+					<td><a th:href="@{'/increase_rub/'+ ${product.id}}" class="btn btn-secondary"
+						   style="width: 30pt" title="Увеличить цену на 1 руб.">+</a></td>
 
-					<td><a th:href="@{'/product/' + ${product.id}}" class="btn btn-info" title="Посмотреть информацию о товаре.">Посмотреть</a></td>
+					<td><a th:href="@{'/product/' + ${product.id}}" class="btn btn-info"
+							title="Посмотреть информацию о товаре.">Посмотреть</a></td>
 				</tr>
 			</tbody>
-			<caption align="bottom" title="caption-заголовок таблицы" th:text="${'всего продуктов: ' + alltheproducts.size()}"></caption>
+			<caption align="bottom" title="caption-заголовок таблицы"
+					th:text="${'всего продуктов: ' + alltheproducts.size()}"></caption>
 		</table>
 
 		<p><h3 th:text="${prompt}"></h3></p>

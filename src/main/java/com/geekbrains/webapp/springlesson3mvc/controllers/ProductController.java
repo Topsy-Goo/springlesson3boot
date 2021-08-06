@@ -1,5 +1,6 @@
 package com.geekbrains.webapp.springlesson3mvc.controllers;
 
+import com.geekbrains.webapp.springlesson3mvc.Lesson3SpringBootApplication;
 import com.geekbrains.webapp.springlesson3mvc.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,6 +97,13 @@ public class ProductController
                            : PROMPT_CANNOT_CHANGE_COST;
 
         return "redirect:/showallproducts";
+    }
+
+    @GetMapping ("/exit")
+    public String exitApp ()
+    {
+        Lesson3SpringBootApplication.exit (0);
+        return "goodbye";   //< до этой строки очередь не доходит.
     }
 
 }

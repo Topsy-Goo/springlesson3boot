@@ -1,71 +1,66 @@
 package com.geekbrains.webapp.springlesson3mvc.repos;
 
+import com.geekbrains.webapp.springlesson3mvc.dao.ProductDao;
 import com.geekbrains.webapp.springlesson3mvc.model.Product;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.geekbrains.webapp.springlesson3mvc.model.Product.isProductValid;
 
-@Component  //< Поменяем на @Repository, когда появится код для работы с БД.
+@Repository     //@Component  < Ставится вместо @Repository, когда отсутствует код для работы с БД.
 public class ProductRepository
 {
-    private final List<Product> productList;
+    private final ProductDao productDao;
 
-
-    public ProductRepository()
+    @Autowired
+    public ProductRepository (ProductDao dao)
     {
-        productList = emptyList();
+        productDao = dao;
     }
 
     @PostConstruct
     public void init()
     {
-        add("Сыр",     "1 кг",  4.50);
-        add("Молоко",  "1 л",   0.80);
-        add("Чай",     "200 г", 2.50);
-        add("Шоколад", "100 г", 1.00);
+        //add("Сыр",     "1 кг",  4.50);
+        //add("Молоко",  "1 л",   0.80);
+        //add("Чай",     "200 г", 2.50);
+        //add("Шоколад", "100 г", 1.00);
     }
 
 //--------------------------------------------------------------------*/
 
     public List<Product> getProductList()
     {
-        return Collections.unmodifiableList (productList);
+        if (productDao != null)
+        {
+            return productDao.findAll();
+        }
+        return null;
     }
 
 //--------------------------------------------------------------------*/
 
     public boolean add (String title, String measure, double cost)
     {
-        Product product = new Product(title, measure, cost);
-        if (isProductValid (product))
-        {
-            return productList.add (product);
-        }
-        return false;
-    }
+        Product product = new Product (title, measure, cost);
 
-    public boolean add (Product pparam)
-    {
-        Product product = new Product (pparam);
-        if (isProductValid (product))
+        if (isProductValid (product) && productDao != null)
         {
-            return productList.add (product);
+            Product p = productDao.saveOrUpdate (product);
+            return p != null;
         }
         return false;
     }
 
     public Product getById (Long id)
     {
-        if (Product.isIdValid (id))
-        for (Product p : productList)
+        if (productDao != null)
         {
-            if (p.getId().equals(id))
-                return p;
+            return productDao.findById(id);
         }
         return null;
     }
@@ -76,7 +71,12 @@ public class ProductRepository
     public boolean changeCostBy (Long id, double delta)
     {
         Product product = getById (id);
-        return product != null && product.changeCostBy (delta);
+        boolean result = productDao != null  &&  product != null  &&  product.changeCostBy (delta);
+        if (result)
+        {
+            productDao.saveOrUpdate (product);
+        }
+        return result;
     }
 
 }

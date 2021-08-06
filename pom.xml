@@ -41,6 +41,38 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>	<!-- ядро hibernate -->
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.5.5.Final</version>
+		</dependency>
+
+<!--		<dependency>	&lt;!&ndash; поддержка jdbc-драйвера SQLite ("SQLite JDBC library)" &ndash;&gt;-->
+<!--			<groupId>org.xerial</groupId>		&lt;!&ndash; в этом поле скобки использовать нельзя (не будет работать)	&ndash;&gt;-->
+<!--			<artifactId>sqlite-jdbc</artifactId>&lt;!&ndash; в этом поле скобки использовать нельзя (не будет работать)	&ndash;&gt;-->
+<!--			<version>3.34.0</version>-->
+<!--		</dependency>-->
+
+		<dependency>	<!-- поддержка jdbc-драйвера MySQL ("JDBC Type 4 driver for MySQL") -->
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.24</version>
+		</dependency>
+
+<!--		<dependency>	&lt;!&ndash; поддержка jdbc-драйвера для PstgresQL ("PostgreSQL JDBC Driver Postgresql") &ndash;&gt;-->
+<!--			<groupId>org.postgresql</groupId>-->
+<!--			<artifactId>postgresql</artifactId>-->
+<!--			<version>42.2.23</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>com.h2database</groupId>-->
+<!--			<artifactId>h2</artifactId>-->
+<!--			<version>1.4.200</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+
 	</dependencies>
 
 	<build>

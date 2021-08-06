@@ -49,12 +49,14 @@
 					th:text="${'всего продуктов: ' + alltheproducts.size()}"></caption>
 		</table>
 
-		<p><h3 th:text="${prompt}"></h3></p>
-		<br>
+		<p><h3 th:text="${prompt}"></h3></p>	<!-- Место для сообщения. -->
 		<br>
 		<a th:href="@{'/'}" class="btn btn-primary">&lt;&nbsp;На главную страницу</a>
 		&nbsp;
 		<a th:href="@{'/create'}" class="btn btn-primary">Добавить товар в репозиторий</a>
+		&nbsp;
+		<a th:href="@{'/exit'}" class="btn btn-warning">Выход</a>
+		<br>
 
 	</div>
 

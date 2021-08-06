@@ -1,53 +1,42 @@
 package com.geekbrains.webapp.springlesson3mvc.model;
 
-public class Product
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table (name="products")
+public class Product implements Serializable
 {
-    private static final long MIN_ID = 1;
-    private static long idNext = MIN_ID;
-    private final Long id;
-    private String title;
-    private String measure;
-    private double cost;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")      private Long id;    //< Если у продукта id == 0, то он считается новым и для него создаётся запись в БД.
 
-    //public Product()
-    //{
-    //    id = idNext++;
-    //}
+    @Column(name="title")   private String title;
+    @Column(name="measure") private String measure;
+    @Column(name="price")   private double cost;
 
+    public Product() {}
+
+//Корректность параметров не проверяем, т.к. это делается перед помещением нового товара в БД. Тогда же товару назначается id.
     public Product (String title, String measure, double cost)
     {
-        if (isTitleValid (title) && isMeasureValid (measure) && isCostValid (cost))
-        {
-            id = idNext++;
-            this.title = title;
-            this.measure = measure;
-            this.cost = cost;
-        }
-        else id = null;    //< индикатор невалидного продукта
-    }
-/*  Все параметры, кроме id, проверяются при создании объекта. Корректный id служит индикатором валидности объекта.
-
-    Это сделано для того, чтобы приложение не падало из-за брошеных в конструкторе исключений: сделали объект из мусора, проверили id — он оказался невалидным, — обработали ошибку.
-*/
-    public Product (Product pparam)
-    {
-        if (pparam != null && isTitleValid (pparam.title) && isMeasureValid (pparam.measure) && isCostValid (cost))
-        {
-            id = idNext++;
-            this.title   = pparam.title;
-            this.measure = pparam.measure;
-            this.cost    = pparam.cost;
-        }
-        else id = null;    //< индикатор невалидного продукта
+        this.title = title;
+        this.measure = measure;
+        this.cost = cost;
     }
 
 //----------------------------------------------------------------------*/
 
-    public static boolean isProductValid (Product p)  {  return p != null && p.isProductValid();  }
+    public static boolean isProductValid (Product p)
+    {
+        return p != null && p.isProductValid();
+    }
 
-    public boolean isProductValid()  {  return  isIdValid (id);  }
+    public boolean isProductValid()
+    {
+        return  isTitleValid(title) && isMeasureValid(measure) && isCostValid(cost);
+    }
 
-    public static boolean isIdValid (Long id)    {  return id != null && id >= MIN_ID;  }
     public static boolean isCostValid (double c) {  return c >= 0.0;  }
     public static boolean isTitleValid (String t)   {  return t != null && !t.trim().isEmpty();  }
     public static boolean isMeasureValid (String m) {  return m != null && !m.trim().isEmpty();  }
@@ -58,6 +47,8 @@ public class Product
     public String getTitle()    {   return title;   }
     public String getMeasure()  {   return measure;   }
     public double getCost()    {   return cost;   }
+
+    private void setId (Long val)    {   id = val;   }   //< Этот сеттер нужен только для хибер-та.
 
     public void setTitle (String title)
     {

@@ -23,7 +23,7 @@
 
 			<!-- поле name задаёт название параметра, которое попадёт в POST-метод. -->
 
-<!--	 id продукта нельзя задать, используя форму, он генерируется автоматически при помещении продукта в репозиторий. -->
+<!--		id продукта нельзя задать, используя форму, он генерируется автоматически при помещении продукта в репозиторий. -->
 
 			<div class="mb-3">
 			  <label	for="pTitle"	class="form-label">Наименование продукта:</label>
@@ -39,37 +39,27 @@
 						required="required">
 			</div>
 
-
 			<label	for="roubles"	class="form-label">Цена за единицу продукта:</label>
 
 			<div class="row">
 				<div class="col">
 					<div class="input-group mb-3">
 						<input	type="text" disabled="disabled" class="form-control" value="Рубли:">
-						<input
-								id="roubles"
-								type="number"
+						<input	id="roubles"
+								type="number" name="rub"
 								class="form-control"
 								placeholder="—"
-								name="rub"
-								required="required"
-								min="0"
-						>
+								required="required" min="0">
 					</div>
 				</div>
 				<div class="col">
 					<div class="input-group mb-3">
 						<input	type="text" disabled="disabled" class="form-control" value="Копейки:">
-						<input
-								id="copecks"
-								type="number"
+						<input	id="copecks"
+								type="number" name="cop"
 								class="form-control"
 								placeholder="—"
-								name="cop"
-								required="required"
-								min="0"
-								max="99"
-						>
+								required="required" min="0" max="99">
 					</div>
 				</div>
 			</div>
@@ -79,12 +69,14 @@
 		</form>
 
 		<br>
-		<h1 th:text="${prompt}"></h1>
+		<h1 th:text="${prompt}"></h1>	<!-- Место для сообщения. -->
 		<br>
 		<a th:href="@{'/'}" class="btn btn-primary">&lt;&nbsp;На главную страницу</a>
-		<br>
-		<br>
+		&nbsp;
 		<a th:href="@{'/showallproducts'}" class="btn btn-primary">&lt;&nbsp;К списку всех продуктов</a>
+		&nbsp;
+		<a th:href="@{'/exit'}" class="btn btn-warning">Выход</a>
+		<br>
 
 	</div>
 

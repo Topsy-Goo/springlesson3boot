@@ -1,6 +1,5 @@
 package com.geekbrains.webapp.springlesson3mvc.repos;
 
-import com.geekbrains.webapp.springlesson3mvc.dao.ProductDao;
 import com.geekbrains.webapp.springlesson3mvc.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,9 +10,10 @@ import java.util.List;
 
 import static com.geekbrains.webapp.springlesson3mvc.model.Product.isProductValid;
 
-@Repository     //@Component  < Ставится вместо @Repository, когда отсутствует код для работы с БД.
+//@Repository     //@Component  < Ставится вместо @Repository, когда отсутствует код для работы с БД.
 public class ProductRepository
 {
+/*
     private final ProductDao productDao;
 
     @Autowired
@@ -31,7 +31,7 @@ public class ProductRepository
         //add("Шоколад", "100 г", 1.00);
     }
 
-//--------------------------------------------------------------------*/
+//--------------------------------------------------------------------/
 
     public List<Product> getProductList()
     {
@@ -42,7 +42,7 @@ public class ProductRepository
         return null;
     }
 
-//--------------------------------------------------------------------*/
+//--------------------------------------------------------------------/
 
     public boolean add (String title, String measure, double cost)
     {
@@ -65,7 +65,7 @@ public class ProductRepository
         return null;
     }
 
-    public static List<Product> emptyList() {   return new ArrayList<>();   }
+    //public static List<Product> emptyList() {   return new ArrayList<>();   }
 
 
     public boolean changeCostBy (Long id, double delta)
@@ -78,5 +78,5 @@ public class ProductRepository
         }
         return result;
     }
-
+//*/
 }

@@ -1,7 +1,7 @@
 package com.geekbrains.webapp.springlesson3mvc.services;
 
 import com.geekbrains.webapp.springlesson3mvc.model.Product;
-import com.geekbrains.webapp.springlesson3mvc.repos.ProductRepository;
+import com.geekbrains.webapp.springlesson3mvc.repos.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,38 +10,38 @@ import java.util.List;
 @Service
 public class ProductService
 {
-    private final ProductRepository productRepository;
+    private final ProductDao productDao;
 
 
     @Autowired
-    public ProductService (ProductRepository repository)
+    public ProductService (ProductDao dao)
     {
-        productRepository = repository;
+        productDao = dao;
     }
 
 
     public List<Product> getAllProducts()
     {
-        return productRepository != null ? productRepository.getProductList()
-                                         : ProductRepository.emptyList();
+        return productDao != null ? productDao.findAll()
+                                  : ProductDao.emptyList();
     }
 
     public boolean saveProduct (String title, String measure, double cost)
     {
-        return productRepository.add (title, measure, cost);
+        return productDao.add (title, measure, cost);
     }
 
     public Product getById (Long id)
     {
-        if (productRepository != null)
-            return productRepository.getById(id);
+        if (productDao != null)
+            return productDao.findById (id);
         return null;
     }
 
     public boolean changeCostBy (Long id, double delta)
     {
-        return productRepository != null
-               && productRepository.changeCostBy (id, delta);
+        return productDao != null
+               && productDao.changeCostBy (id, delta);
     }
 
 }

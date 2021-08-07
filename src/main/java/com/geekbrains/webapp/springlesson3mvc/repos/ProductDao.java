@@ -1,17 +1,18 @@
-package com.geekbrains.webapp.springlesson3mvc.dao;
+package com.geekbrains.webapp.springlesson3mvc.repos;
 
 import com.geekbrains.webapp.springlesson3mvc.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.geekbrains.webapp.springlesson3mvc.repos.ProductRepository.emptyList;
+import static com.geekbrains.webapp.springlesson3mvc.model.Product.isProductValid;
 
-@Component
+@Repository
 public class ProductDao
 {
     private final SessionFactory sessionFactory;
@@ -22,6 +23,7 @@ public class ProductDao
         sessionFactory = sf;
     }
 
+//-------------- методы затребованы в условии ДЗ-5 -------------------*/
 
     public Product findById (Long id)
     {
@@ -45,8 +47,12 @@ public class ProductDao
         {
             session.beginTransaction();
 
-            NativeQuery<Product> np = session.createNativeQuery("SELECT * FROM hiber_test.products;", Product.class);
-            productList = np.getResultList();
+            //NativeQuery<Product> nqp = session.createNativeQuery("SELECT * FROM hiber_test.products;", Product.class);    //< для MySQL
+            //NativeQuery<Product> nqp = session.createNativeQuery("SELECT * FROM products;", Product.class);     //< для H2
+            //productList = nqp.getResultList();
+
+            Query<Product> qp = session.createQuery ("from Product", Product.class);     //< для H2 и для MySQL
+            productList = qp.getResultList();
 
             session.getTransaction().commit();
         }
@@ -78,5 +84,30 @@ public class ProductDao
         }
         return product;
     }
+
+//-------------- перенесены из ProductRepository ---------------------*/
+
+    public boolean add (String title, String measure, double cost)
+    {
+        Product product = new Product (title, measure, cost);
+
+        if (isProductValid (product))
+        {
+            return saveOrUpdate (product) != null;
+        }
+        return false;
+    }
+
+    public boolean changeCostBy (Long id, double delta)
+    {
+        Product product = findById (id);
+        if (product != null  &&  product.changeCostBy (delta))
+        {
+            return saveOrUpdate (product) != null;
+        }
+        return false;
+    }
+
+    public static List<Product> emptyList() {   return new ArrayList<>();   }
 
 }

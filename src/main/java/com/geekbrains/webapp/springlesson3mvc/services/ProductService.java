@@ -44,4 +44,9 @@ public class ProductService
                && productDao.changeCostBy (id, delta);
     }
 
+    public boolean deleteProduct (Long id)
+    {
+        return productDao != null
+               && productDao.deleteById (id);
+    }
 }

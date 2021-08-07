@@ -60,16 +60,20 @@ public class ProductDao
     }
 
 
-    public void deleteById (Long id)   // пока не используется
+    public boolean deleteById (Long id)
     {
         if (sessionFactory != null)
-        try (Session session = sessionFactory.getCurrentSession();)
         {
-            session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            session.delete (product);
-            session.getTransaction().commit();
+            try (Session session = sessionFactory.getCurrentSession();)
+            {
+                session.beginTransaction();
+                Product product = session.get(Product.class, id);
+                session.delete (product);
+                session.getTransaction().commit();
+            }
+            return true;
         }
+        return false;
     }
 
 //Если у продукта id == 0, то он считается новым и для него создаётся запись в БД. В других случаях запись обновляется.

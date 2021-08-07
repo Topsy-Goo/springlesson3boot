@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 public class Lesson3SpringBootApplication
 {
     private static ConfigurableApplicationContext context;
+    private static SessionFactory sessionFactory;
 
 /*  Довольно неожиданно было узнать, что main() завершается почти сразу после начала работы приложения. Видимо, вся работа приложения происходит в другом потоке, а основной поток служит только для инициализации.
 */
@@ -23,12 +24,12 @@ public class Lesson3SpringBootApplication
     {
         try
         {   context = SpringApplication.run(Lesson3SpringBootApplication.class, args);
+            System.out.println("\n\n\t\t\tИнициализация окончена.\n");
         }
         catch (Exception e){e.printStackTrace();}
-        finally
-        {
-            System.out.println("\n\n\t\t\tМетод Lesson3SpringBootApplication.main() завершается.\nПриложение начинает работу.\n\n");
-        }
+        //finally
+        //{
+        //}
     }
 
 
@@ -36,11 +37,11 @@ public class Lesson3SpringBootApplication
     private static SessionFactory sessionFactory()
     {
         Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
-        SessionFactory sf = cfg.buildSessionFactory();
+        sessionFactory = cfg.buildSessionFactory();
 
-        if (!readSqlFile ("import.sql", sf))
-            sf = null;
-        return sf;
+        if (!readSqlFile ("import.sql", sessionFactory))
+            sessionFactory = null;
+        return sessionFactory;
     }
 
     private static boolean readSqlFile (String strPath, SessionFactory sf)
@@ -64,7 +65,6 @@ public class Lesson3SpringBootApplication
         catch (IOException e)
         {
             sf.close();
-            //sf = null;
             e.printStackTrace();
         }
         finally
@@ -77,6 +77,9 @@ public class Lesson3SpringBootApplication
     public static void exit (int exitCode)
     {
         System.out.println("\n\n\t\t\tВыход из приложения.\n\n");
+
+        if (sessionFactory != null) sessionFactory.close();
+
         SpringApplication.exit (context, new AppExitCodeGenerator (18));    //< Непонятно, зачем передавать код, если он используется.
     }
 

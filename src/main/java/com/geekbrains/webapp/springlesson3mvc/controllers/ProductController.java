@@ -13,6 +13,8 @@ public class ProductController
     public static final String PROMPT_DEFAULT = "";
     public static final String PROMPT_COST_CHANGED = "Цена товара изменена.";
     public static final String PROMPT_CANNOT_CHANGE_COST = "Не удалось изменить цену товара.";
+    public static final String PROMPT_PRODUCT_DELETED = "Товар удалён.";
+    public static final String PROMPT_CANNOT_DELETE_PRODUCT = "Не удалось удалить товар.";
 
     private final ProductService productService;
     private String prompt4AllProducts = PROMPT_DEFAULT;
@@ -104,6 +106,16 @@ public class ProductController
     {
         Lesson3SpringBootApplication.exit (0);
         return "goodbye";   //< до этой строки очередь не доходит.
+    }
+
+    @GetMapping ("/delete/{id}")
+    public String deleteProduct (@PathVariable Long id, Model model)
+    {
+        prompt4AllProducts = (productService != null && productService.deleteProduct(id))
+                           ? PROMPT_PRODUCT_DELETED
+                           : PROMPT_CANNOT_DELETE_PRODUCT;
+
+        return "redirect:/showallproducts";
     }
 
 }
